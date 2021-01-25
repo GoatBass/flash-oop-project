@@ -61,14 +61,13 @@
     <div class="row px-2" id="questions-list">
       <div class="col-md-4">
         <!--Template for card data-->
-        <!-- v-for="flashcard in flashCards" -->
-        <div v-for="flashcard in flashCards" class="card card-body flashcard my-3" v-show="showFlashcard">
+        <div v-for="flashcard in flashCards" class="card card-body flashcard my-3" v-show="showFlashcard" :id="flashcard.id">
           <h4 class="text-capitalize">{{ flashcard.question }}</h4>
           <a class="text-capitalize my-3 show-answer" @click="toggleAnswer">show/hide answer</a>
           <h5 class="answer mb-3" v-show="showAnswer">{{ flashcard.answer}}</h5>
           <div class="flashcard-btn d-flex justify-content-between">
             <a id="edit-flashcard" class=" btn my-1 edit-flashcard text-uppercase" data-id="">edit</a>
-            <a id="delete-flashcard" class=" btn my-1 delete-flashcard text-uppercase">delete</a>
+            <a id="delete-flashcard" class=" btn my-1 delete-flashcard text-uppercase" @click="removeCard(flashcard.id)">delete</a>
           </div>
         </div>
       </div>
