@@ -22,6 +22,16 @@ body {
   position: relative;
   background: transparent;
   border-color: var(--mainOrange);
+  animation: fadein 1s;
+}
+
+@keyframes fadein {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity:1;
+  }
 }
 .feedback {
   display: none;

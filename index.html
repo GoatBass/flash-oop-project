@@ -2,80 +2,83 @@
 <html lang="en">
 
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta http-equiv="X-UA-Compatible" content="ie=edge">
- <!-- bootstrap css -->
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"> <!-- main css -->
- <link rel="stylesheet" href="./css/main.css">
- <!-- google fonts -->
- <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- bootstrap css -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <!-- main css -->
+  <link rel="stylesheet" href="./css/main.css">
+  <!-- google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
 
- <!-- font awesome -->
- <link rel="stylesheet" href="./css/all.css">
- <title>Flashcard Project</title>
- <style>
- </style>
+  <!-- font awesome -->
+  <link rel="stylesheet" href="./css/all.css">
+  <title>Flashcard Project</title>
+  <style>
+  </style>
 </head>
 
 <body>
 
- <div id="app" class="container">
-  <div class="row">
-   <div class="col-11 col-lg-6 my-3">
-    <h3 class="text-capitalize">flashcards</h3>
-    <button  class="btn text-capitalize my-2 show-btn" id="show-btn">add question</button>
-    <div  class="card card-body my-3 question-card">
-     <!-- close btn -->
-     <div  class="alert alert-warning" role="alert">
-        Some of the fields are empty!
+  <div id="app" class="container">
+    <div class="row">
+      <div class="col-11 col-lg-6 my-3">
+        <h3 class="text-capitalize">flashcards</h3>
+        <button class="btn text-capitalize my-2 show-btn" id="show-btn" @click="showQuestion">{{ btnQ }}</button>
+        <div class="card card-body my-3 question-card" v-show="showQCard">
+          <!-- close btn -->
+          <div class="alert alert-warning" role="alert">
+            Some of the fields are empty!
+          </div>
+          <a href="#" class="close-btn mt-0">
+            <i class="fas fa-window-close" @click="showQuestion"></i>
+          </a>
+          <!-- end of close btn -->
+          <div class="feedback alert w-75 text-capitalize">
+            customer feedback
+          </div>
+          <form id="question-form" @submit.prevent="submitForm">
+            <!-- single input -->
+            <h5 class="text-capitalize">question</h5>
+            <div class="form-group">
+              <textarea class="w-100" id="question-input" rows="3" v-model="flashcard.question"></textarea>
+            </div>
+            <!-- end of single input -->
+            <!-- single input -->
+            <h5 class="text-capitalize">answer</h5>
+            <div class="form-group">
+              <textarea class="w-100" id="answer-input" rows="3" v-model="flashcard.answer"></textarea>
+            </div>
+            <!-- end of single input -->
+            <button class="btn submitBtn text-capitalize w-50">save</button>
+          </form>
+        </div>
       </div>
-     <a  href="#" class="close-btn mt-0">
-      <i class="fas fa-window-close"></i>
-     </a>
-     <!-- end of close btn -->
-     <div class="feedback alert w-75 text-capitalize">
-      customer feedback
-     </div>
-     <form   id="question-form">
-      <!-- single input -->
-      <h5 class="text-capitalize">question</h5>
-      <div class="form-group">
-       <textarea class="w-100" id="question-input" rows="3" ></textarea>
-      </div>
-      <!-- end of single input -->
-      <!-- single input -->
-      <h5 class="text-capitalize">answer</h5>
-      <div class="form-group">
-       <textarea class="w-100" id="answer-input" rows="3" ></textarea>
-      </div>
-      <!-- end of single input -->
-      <button class="btn submitBtn text-capitalize w-50">save</button>
-     </form>
     </div>
-   </div>
+
+    <div class="row px-2" id="questions-list">
+      <div class="col-md-4">
+        <!--Template for card data-->
+        <!-- v-for="flashcard in flashCards" -->
+        <div v-for="flashcard in flashCards" class="card card-body flashcard my-3" v-show="showFlashcard">
+          <h4 class="text-capitalize">{{ flashcard.question }}</h4>
+          <a class="text-capitalize my-3 show-answer" @click="toggleAnswer">show/hide answer</a>
+          <h5 class="answer mb-3" v-show="showAnswer">{{ flashcard.answer}}</h5>
+          <div class="flashcard-btn d-flex justify-content-between">
+            <a id="edit-flashcard" class=" btn my-1 edit-flashcard text-uppercase" data-id="">edit</a>
+            <a id="delete-flashcard" class=" btn my-1 delete-flashcard text-uppercase">delete</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <div class="row px-2" id="questions-list">
-   <div class="col-md-4">
-    <!--Template for card data-->
-    <div v-for="flashcard in flashCards"  class="card card-body flashcard my-3">
-     <h4 class="text-capitalize">{{ flashcard.question }}</h4>
-     <a  class="text-capitalize my-3 show-answer">show/hide answer</a>
-     <h5 class="answer mb-3">{{ flashcard.answer}}</h5>
-     <div  class="flashcard-btn d-flex justify-content-between">
-      <a  id="edit-flashcard" class=" btn my-1 edit-flashcard text-uppercase" data-id="">edit</a>
-      <a  id="delete-flashcard" class=" btn my-1 delete-flashcard text-uppercase">delete</a>
-     </div>
-    </div>
-   </div>
-
-  </div>
- </div>
-
- <script src="https://unpkg.com/vue@next"></script>
- <!-- script js -->
- <script type="module" src="./js/app.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+  <!-- script js -->
+  <script type="module" src="./js/app.js"></script>
 </body>
 
 </html>
