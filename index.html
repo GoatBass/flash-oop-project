@@ -26,10 +26,11 @@
     <div class="row">
       <div class="col-11 col-lg-6 my-3">
         <h3 class="text-capitalize">flashcards</h3>
-        <button class="btn text-capitalize my-2 show-btn" id="show-btn" @click="showQuestion">{{ btnQ }}</button>
+        <button class="btn text-capitalize my-2 show-btn" id="show-btn" @click="showQuestion" v-show="!editingCard">{{ btnQ }}</button>
         <div class="card card-body my-3 question-card" v-show="showQCard">
           <!-- close btn -->
-          <div class="alert alert-warning" role="alert">
+          <!-- this v-if displays the error message if any of the two fields are empty -->
+          <div v-show="error" class="alert alert-warning" role="alert">
             Some of the fields are empty!
           </div>
           <a href="#" class="close-btn mt-0">
@@ -43,16 +44,16 @@
             <!-- single input -->
             <h5 class="text-capitalize">question</h5>
             <div class="form-group">
-              <textarea class="w-100" id="question-input" rows="3" v-model="flashcard.question"></textarea>
+              <textarea class="w-100" id="question-input" rows="3" v-model="question"></textarea>
             </div>
             <!-- end of single input -->
             <!-- single input -->
             <h5 class="text-capitalize">answer</h5>
             <div class="form-group">
-              <textarea class="w-100" id="answer-input" rows="3" v-model="flashcard.answer"></textarea>
+              <textarea class="w-100" id="answer-input" rows="3" v-model="answer"></textarea>
             </div>
             <!-- end of single input -->
-            <button class="btn submitBtn text-capitalize w-50">save</button>
+            <button class="btn submitBtn text-capitalize w-50">{{ editingCard ?  'Modify' : 'Add'}}</button>
           </form>
         </div>
       </div>
@@ -63,10 +64,10 @@
         <!--Template for card data-->
         <div v-for="flashcard in flashCards" class="card card-body flashcard my-3" v-show="showFlashcard" :id="flashcard.id">
           <h4 class="text-capitalize">{{ flashcard.question }}</h4>
-          <a class="text-capitalize my-3 show-answer" @click="toggleAnswer">show/hide answer</a>
-          <h5 class="answer mb-3" v-show="showAnswer">{{ flashcard.answer}}</h5>
+          <a class="text-capitalize my-3 show-answer" @click="toggleAnswer(flashcard)">show/hide answer</a>
+          <h5 class="answer mb-3" v-show="flashcard.showAnswer">{{ flashcard.answer}}</h5>
           <div class="flashcard-btn d-flex justify-content-between">
-            <a id="edit-flashcard" class=" btn my-1 edit-flashcard text-uppercase" data-id="">edit</a>
+            <a id="edit-flashcard" class=" btn my-1 edit-flashcard text-uppercase" data-id="" @click="editCard(flashcard)">edit</a>
             <a id="delete-flashcard" class=" btn my-1 delete-flashcard text-uppercase" @click="removeCard(flashcard.id)">delete</a>
           </div>
         </div>
