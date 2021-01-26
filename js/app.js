@@ -92,7 +92,8 @@ const app = Vue.createApp({
                 console.log('flashcards watch:', value)
                 let toLocalStorage = JSON.stringify(value)
                 toLocalStorage.setItem('saved-flashcards ', toLocalStorage)
-            }
+            },
+            deep: true
         }
     }
 })
