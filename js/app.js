@@ -76,6 +76,24 @@ const app = Vue.createApp({
             this.showQCard = !this.showQCard
             this.editingCard = flashcard //we changed out app status to inform that we are in edition mode, plus we are editting flashcard
         }
+    },
+
+    mounted(){
+        let savedFlashs = localStorage.getItem('saved-flashcards')
+        if(savedFlashs){
+            this.flashCards = JSON.parse(savedFlashs)
+        }
+        console.log('load: ', this.flashCards)
+    },
+
+    watch: {
+        flashCards: {
+            handler(value){
+                console.log('flashcards watch:', value)
+                let toLocalStorage = JSON.stringify(value)
+                toLocalStorage.setItem('saved-flashcards ', toLocalStorage)
+            }
+        }
     }
 })
 
